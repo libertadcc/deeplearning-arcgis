@@ -86,7 +86,7 @@ plt.show()
 
 # Imagen que vamos a utilizar: 
 ```
-![Imagen de partida](./images/cat.jpg)
+<img src="./images/cat.jpg" alt="Imagen de partida" width="300"/>
 
 Foto de <a href="https://unsplash.com/es/@milada_vigerova?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Milada Vigerova</a> en <a href="https://unsplash.com/es/fotos/gato-azul-ruso-sobre-mesa-blanca-7E9qvMOsZEM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
 
@@ -136,7 +136,8 @@ tv
 person
 cat
 ```
-![Predicción 1 sin ajustar el threshold](./images/resultado1.png)
+<img src="./images/resultado1.png" alt="Predicción sin ajustar el threshold" width="300"/>
+
 ```python
 # Nos detecta muchos elementos cuando deberían ser parte de uno más grande, nos falta el parámetro resize como True
 predictions = yolo.predict(cats_path, 
@@ -152,8 +153,7 @@ for category in set(categories):
 vase
 cat
 ```
-![Predicción 2 ajustado el threshold](./images/resultado2.png)
-
+<img src="./images/resultado2.png" alt="Predicción tras ajustar el threshold" width="300"/>
 
 > Método *[predict](https://developers.arcgis.com/python/api-reference/arcgis.learn.toc.html#yolov3)* con la definición de todos sus **parámetros**
 

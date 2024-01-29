@@ -21,6 +21,18 @@ model = YOLOv3()
 Y ya por último solo tendríamos que aplicar el modelo sobre el vídeo en cuestión. En este primer caso, es un único vídeo al cual podemos acceder por el path.
 
 ```python
+video = r"C:\XXXXX\cars.mp4"
+model.predict_video(video,
+                    metadata_file=r"C:\XXXX\prd.csv",
+                    visualize=True,
+                    resize=True,
+                    visual_options={
+                        'color': (0, 0, 255), 
+                        'fontface': 0, 
+                        'show_labels': True, 
+                        'show_scores': True, 
+                        'thickness':2
+                    })
 
 ```
 

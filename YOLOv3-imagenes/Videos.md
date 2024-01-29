@@ -109,13 +109,16 @@ for index, row in videosDF.iterrows():
     videosFLayer.attachments.add(objectId, output_path)
 ```
 **Vídeo original**
-https://github.com/libertadcc/deeplearning-arcgis/blob/main/YOLOv3-imagenes/images/cars-predictions_Fq130B3m.mp4
+
+
 > Vídeo de [Mike Bird](https://www.pexels.com/es-es/video/diferentes-tipos-de-vehiculos-en-la-autopista-2053100/)
 
-**Vídeo con modelo aplicado**
 
-https://libertadcc.github.io/deeplearning-arcgis/YOLOv3-imagenes/images/cars-predictions_Fq130B3m.mp4
+**Vídeo con modelo aplicado**
+<video src="https://libertadcc.github.io/deeplearning-arcgis/YOLOv3-imagenes/images/cars-predictions_Fq130B3m.mp4" controls="controls" style="max-width: 700px;">
+
+
 
 Como en el caso de las imágenes, obtenemos un mejor resultado si ponemos el parámetro *resize* como verdadero:
+<video src="https://libertadcc.github.io/deeplearning-arcgis/YOLOv3-imagenes/images/resizeTrue.mp4" controls="controls" style="max-width: 730px;">
 
-https://libertadcc.github.io/deeplearning-arcgis/YOLOv3-imagenes/images/resizeTrue.mp4

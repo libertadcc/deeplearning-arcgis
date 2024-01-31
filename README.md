@@ -23,7 +23,19 @@ Podemos decir que, en la práctica, hay dos tipos de algoritmos de detección de
 
 En comparación, los algoritmos de propuesta de región (primer grupo) suelen tener una precisión superior pero son más lentos en comparación con los de una única pasada que son bastante eficientes a pesar de hacer una única pasada. 
 
+
+
+
 ## Temas tratados:
 1. [Modelo YOLOv3 con imágenes](./YOLOv3-imagenes/Imagenes.md)
 2. [Modelo YOLOv3 con vídeos](./YOLOv3-imagenes/Videos.md)
 3. [Modelos SSD](./SSD/Intro.md)
+
+## Clasificación de píxeles
+
+
+
+
+# Enlaces de interés
+- [¡Redes Neuronales CONVOLUCIONALES! ¿Cómo funcionan?](https://www.youtube.com/watch?v=V8j1oENVz00&ab_channel=DotCSV)
+- [¿Qué es una Red Neuronal?](https://www.youtube.com/watch?v=MRIv2IwFTPg&ab_channel=DotCSV)

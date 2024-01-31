@@ -43,4 +43,14 @@ Como tal vez recuerde, la columna vertebral de ResNet34 genera 256 mapas de cara
 
 Por ello, SSD nos permite definir una jerarquía de celdas de cuadrícula en diferentes capas. Por ejemplo, podríamos utilizar una cuadrícula 4x4 para encontrar objetos pequeños, una cuadrícula 2x2 para encontrar objetos de tamaño medio y una cuadrícula 1x1 para encontrar objetos que cubran toda la imagen.
 
-https://developers.arcgis.com/python/guide/how-ssd-works/#anchor-box
+## Implementación con ArcGIS API for Python
+
+Con el módulo de *arcgis.learn* de la API podemos definir la arquitectura del modelo en una sola línea:
+```python
+ssd = SingleShotDetector(data, grids=[4], zooms=[1.0], ratios=[[1.0, 1.0]])
+```
+Los parámetros que le hemos pasado son:
+- El tamaño de la celda de la cuadrícula, en este caso 4x4.
+- Nivel de zoom de 1.0
+- Relación de aspecto 1.0:1.0 lo que significa que la red creará una caja de anclaje para cada celda de la cuadrícula del mismo tamaño que la celda de la cuadrícula y de forma cuadrada por su relación de aspecto. 
+

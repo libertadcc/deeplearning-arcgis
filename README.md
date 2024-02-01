@@ -60,6 +60,16 @@ Hay diferentes algoritmos de segmentación semántica como U-net, Mask R-CNN, Fe
 
 Lo ideal es tener tiempo y recursos para entrenar tus propios modelos porque será cuando se llegue a la mejor conclusión pero no es real, muchas veces tendremos que utilizar modelos pre-entrenados por otras personas. Un sitio del que podemos obtener modelos pre-entrenados es el Living Atlas donde hay más de [70 dlpks](https://livingatlas.arcgis.com/en/browse/?q=dlpk#q=dlpk&d=2) compartidos de distintas temáticas.
 
+Para poder utilizar un modelo preentrenado debemos cumplir algunos requisitos como el tipo de dato de entrada y si es una imagen, su resolución. 
+
+Por ejemplo, en el modelo [clasificación de cobertura del suelo](https://www.arcgis.com/home/item.html?id=afd124844ba84da69c2c533d4af10a58) podemos ver como se necesita una imagen ráster con una resolución de 10 metros.
+![Requisitos del modelo de clasificación de cobertura del suelo](./assets/inputData.png)
+
+Podemos ver las características de la imagen con la que vamos a trabajar en:
+1. **ArcGIS Online** viendo el detalle del elemento donde está alojada la imagen.
+![Propiedades de imagen](./assets/propsimg.png)
+
+2. En **ArcGIS Pro** en las propiedades del elemento podemos ver el cell size así como el número de bandas de la imagen. 
 
 
 

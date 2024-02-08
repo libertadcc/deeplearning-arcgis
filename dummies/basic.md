@@ -42,6 +42,39 @@ Glosario y explicación de conceptos básicos de DL y ML que se ve en el resto d
 
     - Una tasa de aprendizaje **demasiado baja** puede hacer que el proceso de convergencia sea muy lento. 
 
-    ![alt text](img/image.png)
-
+    ![Problemas tasa de aprendizaje](img/learningRate.png)
     > Como se ve en la imagen, una tasa de aprendizaje muy baja puede provocar que el modelo se quede atascado en mínimo locales y una muy alta, inestabilidad. 
+
+
+
+
+## Parámetros modelos pre-entrenados
+* **Padding**: es la zona fronteriza a partir de la cual el modelo descartará las detecciones. Una vez ignoradas esas zonas fronterizas por tesela, el modelo se ejecutará en esa zona de la tesela. 
+![](https://www.esri.com/arcgis-blog/wp-content/uploads/2021/03/Padding-V3.gif)
+
+* **Batch size**: es uno de los parámetros de deep learning y se refiere al número de elementos procesados simultáneamente antes de que se actualicen los pesos del modelo. Elegir un batch size adecuado puede optimizar el uso de los recursos computacionales ya que permite procesar un número razonable de elementos en paralelo sin sobrecargar la memoria o la capacidad de computación de la GPU o CPU. Por lo general, los modelos preentrenados suelen poner un batch size de 4, pero podemos aumentarlo a, por ejemplo, 16 si nuestro ordenador lo permite (suele ser lo normal). 
+
+    ![Batch size en ArcGIS Pro](img/batchSize.png)
+
+    Podemos comprobar si el tamaño es el adaptado a nuestra GPU probando a lanzar el modelo y en la consola escribir ```nvidia-smi``` y ahi podremos ver el uso de memoria y decidir si ese tamaño es el adecuado porque tenemos memoria libre o disminuirlo si la memoria está al límite. 
+
+    ![Información consola](img/batchsize_cmd.png)
+
+* **Threshold**: establece el nivel mínimo de confianza para incluir el elemento detectado como resultado del modelo. Por defecto, suele estar en el 0.9, pero es interesante cambiar a un 0.6 o cifras intermedias para ver todos los resultados. Además, luego se puede hacer un filtro teniendo en cuenta el nivel de confianza. 
+
+* **Return bbox**: es un parámetro booleano con el que podemos definir si queremos que nos devuelva el cuadro delimitador alrededor del elemento detectado. 
+
+Otro elemento importante, aunque no podemos considerar parámetro, es la **extensión** sobre la que ejecutamos el modelo.
+
+![Definir la extensión de ejecución del modelo](img/extent.png)
+> Solo se ejecutará el modelo en la extensión actual de la imagen.
+
+* **cell size**: define el tamaño de la ventana sobre la cual se van a calcular las características de una región. El tamaño de celda es la resolución de la imagen que vamos a analizar. 
+    > Un tamaño más grande de celda = menor resolución.
+
+    Dependiendo del modelo que vayamos a usar, tendremos que usar imágenes con una resolución u otra. Todo ello está definido en la descripción del modelo. 
+    > Tenemos la opción de *resample* una imagen y pasarla a una menor resolución, es decir, si tenemos una imagen de 0.25 de resolución, podemos decir al modelo que use un tamaño de celda de 0.4 sin necesidad de crear una nueva imagen.
+
+    ![Ajustar tamaño de celda](img/cellSize.png)
+
+

@@ -101,3 +101,6 @@ Con el parámetro *pointrend* podemos inicializar el modelo con el módulo Point
 ```python
 psp = PSPNetClassifier(data=data, pointrend=True)
 ```
+
+# Ejemplos con PSPNet
+* [Detección de cambios con U-Net a partir de imágenes satelitales](https://developers.arcgis.com/python/samples/multi-class-change-detection-using-segmentation-deep-learning-models)

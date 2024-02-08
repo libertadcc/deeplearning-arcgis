@@ -43,3 +43,7 @@ Aunque podemos pasar más [parámetros](https://developers.arcgis.com/python/api
 * Aspecto de *ratios* de las cajas de anclaje. 
 
 > El ajuste de estos parámetros se basa en la intuición adquirida a través de la comprensión del modelo y la experimentación con el conjunto de datos.
+
+
+# Ejemplos con RetinaNet
+* [Detección de elementos de red eléctricos e invasiones de vegetación a partir de imágenes de satélite](https://developers.arcgis.com/python/samples/detection-of-electric-utility-features-and-vegetation-encroachments-from-satellite-images-using-deep-learning)

@@ -6,25 +6,24 @@ Este repositorio me sirve personalmente para ordenar las ideas y conceptos relac
 
 ![Esquema general](./assets/schemaGeneral.png)
 
+
+> 🗒️[Conceptos básicos](./dummies/basic.md)
+
 # Índice
 
 1. [Introducción](#deep-learning-y-arcgis)
 2. [Tipos de modelos](#modelos-de-deep-learning-en-arcgis)
-    * [Clasificación de imágenes](#clasificación-de-imágnes)
     * [Detección de objetos](#detección-de-objetos)
-    * [Segmentación de objetos](#segmentación-de-objetos)
     * [Clasificación de píxeles](#clasificación-de-píxeles)
 3. [Modelos pre-entrenados](#modelos-preentrenados)
     * [Entrenar un modelo](#entrenamiento-de-un-modelo)
     * [Reentrenar un modelo](#re-entrenamiento-de-modelos)
 
 # Modelos de deep learning en ArcGIS
-Hay muchas aplicaciones de los modelos de deep learning en las tecnologías geo espaciales que permiten potenciar la capacidad analítica y predictiva. Por ejemplo, se pueden usar modelos para detectar y clasificar objetos en imágenes como en la detección de coches, reconocimento de patrones, etc.
+Hay muchas aplicaciones de los modelos de deep learning en las tecnologías geo espaciales que permiten potenciar la capacidad analítica y predictiva. Por ejemplo, se pueden usar modelos para detectar y clasificar objetos en imágenes como en la detección de coches, reconocimento de patrones...
 
-## Clasificación de imágnes
 ## Detección de objetos
 
-## Clasificación de imágenes y detección de objetos
 La **clasificación de imágenes** por ordenador coge una imagen y predice el objeto que contiene mientras que la **detección de objetos** predice el objeto y encuentra su ubicación en términos de cuadros delimitadores. Por ejemplo, un clasificador de piscinas nos dirá si en la imagen hay piscinas, mientras que un modelo de detección nos dirá si hay piscina y dónde está. De forma que un modelo de detección nos dirá:
 - La probabilidad de que haya ese objeto
 - La altura de la caja delimitadora
@@ -55,25 +54,23 @@ En comparación, los algoritmos de propuesta de región (primer grupo) suelen te
 
 > *MMDetection no es un modelo de deep learning como tal sino que es un marco de código abierto para la detección de objetos que **puede usar diferentes modelos de deep learning** para ello como Faster R-CNN, SSD ...  es decir, modelos de una o varias pasadas.
 
+## Clasificación de píxeles
 
-## Segmentación de objetos
-
-Es una tarea en visión por computadora que implica la asignación de una etiqueta a cada píxel de una imagen para indicar a qué objeto pertenece. Mientras que la detección de objetos identifica la presencia de objetos en una imagen y los delimita con cajas delimitadoras. 
+La **segmentación de objetos** es una tarea en visión por ordenador que implica la asignación de una etiqueta a cada píxel de una imagen para indicar a qué objeto pertenece. Mientras que la detección de objetos identifica la presencia de objetos en una imagen y los delimita con cajas delimitadoras. 
 
 En resumen, mientras que la detección de objetos nos dice qué objetos están presentes y dónde se encuentran en la imagen, la segmentación de objetos nos proporciona información detallada sobre la ubicación exacta de cada píxel perteneciente a un objeto específico.
 
 Existen dos tipos principales de segmentación de objetos:
 
-- **Segmentación Semántica**: asigna una etiqueta a cada píxel para indicar a qué clase o categoría de objeto pertenece. Por ejemplo, en una imagen de calle puede haber píceles de la clas automóvil, peatón o edificio. 
+- **Segmentación semántica**: asigna una etiqueta a cada píxel para indicar a qué clase o categoría de objeto pertenece. Por ejemplo, en una imagen de calle puede haber píceles de la clas automóvil, peatón o edificio. 
 - **Segmentación de instancias**: asigna una etiqueta a cada píxel y diferencia intancias del mismo tipo de objeto. Por ejemplo, si hay dos coches en una imagen, la segmentación de instancias distingue qué píxeles pertenecen a cada uno. 
 
 Por ejemplo, si tenemos una imagen de una calle donde aparecen personas, coches y carreteras, la *segmentación semántica* asignará una etiqueta con una categoría (persona, coche, carretera) a cada píxel mientras que la *segmentación de instancias* clasificará los píxeles y asignará identificadores únicos a cada instancia individual de objeto. 
 
-Algunos modelos y bibliotecas populares para la segmentación de objetos incluyen U-Net, SegNet, y MMSegmentation.
+> Algunos modelos y bibliotecas populares para la segmentación de objetos incluyen U-Net, SegNet y MMSegmentation.
 
-### Clasificación de píxeles
 
-La segmentación semántica también se llama **clasificación de píxeles** y que consiste en la clasificación de cada píxel en determinadas categorías. Para hacer esta segmentación semántica hay dos inputs de información:
+La **segmentación semántica también se llama clasificación de píxeles** y que consiste en la clasificación de cada píxel en determinadas categorías. Para hacer esta segmentación semántica hay dos inputs de información:
 - Una imagen raster con varias bandas.
 - Una imagen de etiqueta que contiene etiquetas para cada píxel. 
 
@@ -82,6 +79,7 @@ Hay diferentes algoritmos de segmentación semántica como U-net, Mask R-CNN, Fe
 ### Modelos de clasificación de píxeles
 * [U-Net](./U-Net/Intro.md)
 * [PSPNet](./PSPNet/Intro.md)
+
 
 # Modelos preentrenados
 
@@ -97,6 +95,7 @@ Podemos ver las características de la imagen con la que vamos a trabajar en:
 ![Propiedades de imagen](./assets/propsimg.png)
 
 2. En **ArcGIS Pro** en las propiedades del elemento podemos ver el cell size así como el número de bandas de la imagen. 
+![Propiedade de imagen en ArcGIS Pro](./assets/propertiesPro.png)
 
 
 Puede que un modelo pre-entrenado no nos valga porque esté entrenado con datos concretos y no sea aplicable en nuestros datos. Por ejemplo, es un modelo de detección de piscinas cuadradas y nosotros tenemos piscinas redondas. Para solucionar esto tenemos dos alternativas: entrenar un modelo desde cero o reentrenar un modelo.
@@ -172,7 +171,6 @@ model.show_results()
 También podemos obtener la **tasa de aprendizaje** que es uno de los hiper parámetros más importantes en el entrenamiento de modelos. El método *lr_find()* encuentra la tasa de aprendizaje óptima que nos permite ajustar el modelo. 
 ```python
 lr = model.lr_find()
-lr
 ```
 
 ### Entrenamiento del modelo
@@ -196,3 +194,4 @@ model.save("New_building_footprint")
 - [¡Redes Neuronales CONVOLUCIONALES! ¿Cómo funcionan?](https://www.youtube.com/watch?v=V8j1oENVz00&ab_channel=DotCSV)
 - [¿Qué es una Red Neuronal?](https://www.youtube.com/watch?v=MRIv2IwFTPg&ab_channel=DotCSV)
 - [Finetuning pre-trained model](https://developers.arcgis.com/python/samples/finetuning-pre-trained-building-footprint-model/#model-finetuning)
+- [Parameters and Hyperparameters in ML and DL](https://towardsdatascience.com/parameters-and-hyperparameters-aa609601a9ac#:~:text=Simply%20put%2C%20parameters%20in%20machine,choice%20of%20hyperparameters%20you%20provide.)

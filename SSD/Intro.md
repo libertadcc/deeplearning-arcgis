@@ -54,3 +54,7 @@ Los parámetros que le hemos pasado son:
 - Nivel de zoom de 1.0
 - Relación de aspecto 1.0:1.0 lo que significa que la red creará una caja de anclaje para cada celda de la cuadrícula del mismo tamaño que la celda de la cuadrícula y de forma cuadrada por su relación de aspecto. 
 
+# Ejemplos con SSD
+* [Detección de desperfectos en la calzada](https://developers.arcgis.com/python/samples/automate-road-surface-investigation-using-deep-learning)
+* [Detección de piscinas](https://developers.arcgis.com/python/samples/detecting-swimming-pools-using-satellite-image-and-deep-learning)
+* [Detección de hornos de ladrillos(brick kilns)](https://developers.arcgis.com/python/samples/detecting-and-categorizing-brick-kilns-from-satellite-imagery)

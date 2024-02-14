@@ -21,7 +21,7 @@ Podemos definir los siguientes parámetros en la función:
 ## Uso de la función
 
 ```python
-# Cargar el modelo, en este caso el YOLOv3
+# Cargar el modelo, en este caso el YOLOv3 pero se puede poner cualquier modelo
 from arcgis.learn import YOLOv3
 model = YOLOv3()
 
@@ -41,7 +41,11 @@ model.predict_video(
     output_file_path=r'\path\to\output\output_file.mp4',
     multiplex=True,
     multiplex_file_path=r'\path\to\output\multiplexed_file.mp4',
-    tracker_options={'assignment_iou_thrd': 0.3, 'vanish_frames': 40, 'detect_frames': 10},
+    tracker_options={
+        'assignment_iou_thrd': 0.3, 
+        'vanish_frames': 40, 
+        'detect_frames': 10
+        },
     visual_options={
         'show_scores': True, 
         'show_labels': True, 
@@ -53,3 +57,5 @@ model.predict_video(
 ```
 
 [Ejemplo de uso en ArcGIS Notebook](https://preventas.maps.arcgis.com/home/item.html?id=8e3ed0db5503452e9737831a9a9b2dca)
+
+![GIF de detección de objetos en vídeos](../assets/objectTracking.gif)

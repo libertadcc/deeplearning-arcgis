@@ -110,9 +110,42 @@ Se utiliza un filtro de Kalman en cada cuadro delimitador por lo que el movimien
 - Predecir: es una multiplicación de matrices que nos dirá la posición del cuadro delimitador (bounding box) en el tiempo *t* basándose en su posición en el tiempo *t-1*. 
 - Actualizar: es un paso de correción. Incluye las nuevas mediciones del modelo de detección de objetos y mejora nuestro filtro. 
 
+
 #### Algoritmo de asociación húngaro
 El algoritmo húngaro puede asociar un obstáculo de un fotograma a otro basándose en una puntuación como intersección sobre unión (IoU). 
 Se recorre la lista de trackers y detecciones y se le asigna un tracker a cada detección en base a la puntuación de IoU. El proceso general consiste en detectar obstáculos mediante un algoritmo de detección de objetos, cotejar esas bounding box con los anteriores y predecir las posiciones futuras de esos cuadros o las posiciones reales mediante filtros de Kalman. 
+
+* [Ejemplo de uso de ```predict_video``](./ObjectTracking/predict_video.md)
+
+## Seguimiento multi-objeto con ObjectTracker
+Los modelos de detección de objetos basado en deep learning de *arcgis.learn* pueden utilizarse para detectar objetos de interés. 
+
+La clase **ObjectTracker** de *arcgis.learn* empareja modelo de detección de objetos y modelos de seguimiento de objetos para permitir el seguimiento multiobjeto basado en deep learning. 
+
+Los pasos a seguir serían:
+1. **Entrenar el modelo detector de objetos**.
+Seleccionamos uno de los modelos de detección de objetos de *arcgis.learn* y lo reentrenamos.
+> [Guía para la detección de objetos con *arcgis.learn*](https://developers.arcgis.com/python/guide/object-detection-and-tracking-on-videos/)
+
+2. **Entrenar el trackeo de objetos**
+
+3. **Inicializar y rastrear objetos con ObjectTracker**
+La clase ObjectTracker se inicializa pasandóle como parámetros el modelo de detección de objetos y el de trackeo de objetos. 
+
+```python
+# Cargar los modelos de detección de objetos y de seguimiento
+from arcgis.learn import ObjectDetectionModel, ObjectTrackingModel
+
+# Cargar ObjectTracker
+from arcgis.learn import ObjectTracker
+
+# Inicialización de detección de objetos y de seguimiento
+detection_model = ObjectDetectionModel.from_model(DETECTION_MODEL_PATH)
+tracking_model = ObjectTrackingModel.from_model(TRACKING_MODEL_PATH)
+```
+
+Una vez cargados los modelos de detección y seguimiento de objetos, nos faltaría inicializar el ObjectTracker al que le podemos pasar diferentes parámetros:
+https://developers.arcgis.com/python/guide/multi-object-tracking-using-object-tracker/
 
 # Modelos preentrenados
 

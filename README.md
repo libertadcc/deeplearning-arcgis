@@ -15,6 +15,7 @@ Este repositorio me sirve personalmente para ordenar las ideas y conceptos relac
 2. [Tipos de modelos](#modelos-de-deep-learning-en-arcgis)
     * [Detección de objetos](#detección-de-objetos)
     * [Clasificación de píxeles](#clasificación-de-píxeles)
+    * [Seguimiento de objetos](#seguimiento-de-objetos)
 3. [Modelos pre-entrenados](#modelos-preentrenados)
     * [Entrenar un modelo](#entrenamiento-de-un-modelo)
     * [Reentrenar un modelo](#re-entrenamiento-de-modelos)
@@ -80,6 +81,38 @@ Hay diferentes algoritmos de segmentación semántica como U-net, Mask R-CNN, Fe
 * [U-Net](./U-Net/Intro.md)
 * [PSPNet](./PSPNet/Intro.md)
 
+## Seguimiento de objetos
+
+### Detección de objetos
+Los modelos de detección de objetos también pueden utilizarse para detectar objetos en vídeos con la función ```predict_video```. Esta función aplica el modelo a cada fotograma del vídeo y proporciona las clases y cuadros delimitadores de los objetos detectados en cada fotograma. Toda esa información se alamacena enun archivo de metadatos. Los objetos detectados pueden visualizarse en el vídeo usando el parámetro ```visualize=True```. 
+El archivo de metadatos es un CSV que contiene metadatos sobre los fotogramas del vídeo para momentos específicos. El archivo CSV se actualiza codificando las detecciones de objetos en el estándar MISB 0903 en la columna ```vmtilocaldataset```. 
+
+### Seguimiento de objetos
+
+El seguimiento de objetos nos permite saber cuántos objetos hay y qué trayectorias siguen. Podemos resumirlo como un proceso de:
+- Tomar un conjunto inicial de detecciones de objetos (como un conjunto de entrada de coordenadas de cuadro delimitador).
+- Crear un identificador único para cada detección inicial.
+- Rastrear (track) cada uno de los objetos a medida que se mueven por los fotogramas del vídeo manteniendo la asignación de IDs únicos. 
+
+El **seguimiento de objetos** en *arcgis.learn* se basa en el algoritmo SORT (Simple Online Realtime Tracking) que combina el filtrado de Kalman y el algorimo de asignación húngara. 
+
+El filtro de Kalman se usa para estimar la posición de un tracker mientras que el algoritmo húngaro se utiliza para asignar trackers a una nueva detección. 
+
+#### Filtro de Kalman
+El filtrado de Kalman utiliza una serie de mediciones observadas a lo largo del tiempo y produce estimaciones de variables desconocidas mediante la estimación de una distribución de probabilidad conjunta sobre las variables en cada frame. 
+Nuestro estado contiene 8 variables (u, v, a, h, u', v', a', h') donde:
+- (u, v) son los centros de los cuadros delimitadores
+- a es la relación de aspecto
+- h es la altura de la imagen
+- u', v', a', h' son sus respectivas velocidades
+
+Se utiliza un filtro de Kalman en cada cuadro delimitador por lo que el movimiento se puede asociar con un tracker. Cuando la asociación está hecho, se llaman a las funciones de predicción y actualización:
+- Predecir: es una multiplicación de matrices que nos dirá la posición del cuadro delimitador (bounding box) en el tiempo *t* basándose en su posición en el tiempo *t-1*. 
+- Actualizar: es un paso de correción. Incluye las nuevas mediciones del modelo de detección de objetos y mejora nuestro filtro. 
+
+#### Algoritmo de asociación húngaro
+El algoritmo húngaro puede asociar un obstáculo de un fotograma a otro basándose en una puntuación como intersección sobre unión (IoU). 
+Se recorre la lista de trackers y detecciones y se le asigna un tracker a cada detección en base a la puntuación de IoU. El proceso general consiste en detectar obstáculos mediante un algoritmo de detección de objetos, cotejar esas bounding box con los anteriores y predecir las posiciones futuras de esos cuadros o las posiciones reales mediante filtros de Kalman. 
 
 # Modelos preentrenados
 

@@ -120,7 +120,7 @@ Se recorre la lista de trackers y detecciones y se le asigna un tracker a cada d
 ## Seguimiento multi-objeto con ObjectTracker
 Los modelos de detección de objetos basado en deep learning de *arcgis.learn* pueden utilizarse para detectar objetos de interés. 
 
-La clase **ObjectTracker** de *arcgis.learn* empareja modelo de detección de objetos y modelos de seguimiento de objetos para permitir el seguimiento multiobjeto basado en deep learning. 
+La clase [**ObjectTracker**](https://developers.arcgis.com/python/api-reference/arcgis.learn.toc.html#objecttracker) de *arcgis.learn* empareja modelo de detección de objetos y modelos de seguimiento de objetos para permitir el seguimiento multiobjeto basado en deep learning. 
 
 Los pasos a seguir serían:
 1. **Entrenar el modelo detector de objetos**.
@@ -144,8 +144,49 @@ detection_model = ObjectDetectionModel.from_model(DETECTION_MODEL_PATH)
 tracking_model = ObjectTrackingModel.from_model(TRACKING_MODEL_PATH)
 ```
 
-Una vez cargados los modelos de detección y seguimiento de objetos, nos faltaría inicializar el ObjectTracker al que le podemos pasar diferentes parámetros:
-https://developers.arcgis.com/python/guide/multi-object-tracking-using-object-tracker/
+Una vez cargados los modelos de detección y seguimiento de objetos, nos faltaría inicializar el ObjectTracker al que le podemos pasar diferentes [parámetros](https://developers.arcgis.com/python/api-reference/arcgis.learn.toc.html#objecttracker):
+
+- ```detection_interval```: intervalo de fotogramas en el que se invoca al detector.
+- ```detection_threshold```: umbral inferior para seleccionar las detecciones.
+- ```detect_track_failure```: bandera que activa/desactiva la lógica para detectar si la apariencia del objeto ha cambiado la detección.
+- ```recover_track```: flag que habilita/deshabilita la recuperación de la pista tras un fallo.
+- ```stab_period```: nº de fotogramas tras los cuales se inicia el post-procesado.
+- ```detect_fail_interval```: nº de frames tras los que se detecta un fallo de trackeo.
+- ```min_obj_size```: tamaño de píxeles por debajo del cual se asume que el seguimiento ha fallado.
+- ```template_history```: nº de frames anteriores al frame actual en los que se obtiene la plantilla de la imagen.
+- ```status_history```: nº de frames sobre los que se utiliza el estado del trackeo para detectar un fallo.
+- ```status_fail_threshold```: umbral del ratio entre el número de frames en el que el objeto es buscado y el nº total de frames que es necesario cruzar para detectar el fallo en el seguimiento. 
+- ```search_period```: nº de frames en los que se busca el objeto antes de declarar que se ha perdido.
+- ```knn_distance_ratio```: umbral para la relación de las distancias entre el descriptor de la plantilla y los dos descriptores de detección que mejor coinciden. Es utilizado para filtrar las mejores coincidencias.
+- ```recover_conf_threshold```: valor mínimo de confianza a partir del cual se activa la lógica de recuperación.
+- ```recover_iou_threshold```: superposición mínima entre la plantilla y la detección para una recuperación correcta. 
+
+```python
+tracker = ObjectTracker(tracking_model, detector=detection_model, tracker_options=TRACKER_OPTIONS)
+``` 
+**Iniciar los objetos**
+Una vez "montados" los tres componentes clave (ObjectTracker, modelo de detección y modelo de seguimiento) faltaría inicializar el seguimiento de los objetos detectados utilizando el ```tracker``` que acabamos de declarar:
+
+```python
+tracks = tracker.init(frame)
+```
+
+Este método ```init``` devolverá una lista de los tracks inicializados y como parámetros puede recibir:
+- ```frame```: array de numpy obligatorio. Es utilizado para inicializar los objetos a seguir. *
+- ```detections```: lista de cajas delimitadoras para iniciar el seguimiento.
+- ```labels```: lista de etiquetas correspondientes a las detecciones.
+- ```reset```: flag que indica si el tracker debe ser reiniciado y eliminar todos los seguimientos anteriores. 
+
+**Actualizar la posición de los objetos**
+El método ```update``` permite actualizar la ubicación de los objetos y reinicializarlos. También tenemos que pasarle el ```frame```, array de numpy, y nos devolverá una lista de los seguimientos actualizada. 
+
+```python
+tracks = tracker.update(frame)
+```
+
+https://developers.arcgis.com/python/guide/multi-object-tracking-using-object-tracker/#sample-code 
+
+> [SiamMask: algoritmo de seguimiento de objetos](./ObjectTracking/predict_video.md)
 
 # Modelos preentrenados
 

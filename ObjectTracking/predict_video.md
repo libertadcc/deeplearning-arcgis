@@ -58,4 +58,3 @@ model.predict_video(
 
 [Ejemplo de uso en ArcGIS Notebook](https://preventas.maps.arcgis.com/home/item.html?id=8e3ed0db5503452e9737831a9a9b2dca)
 
-![GIF de detección de objetos en vídeos](../assets/objectTracking.gif)

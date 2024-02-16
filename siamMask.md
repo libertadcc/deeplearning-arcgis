@@ -95,4 +95,4 @@ cv2.destroyAllWindows()
 ```
 
 Ejemplo:
-![Ejecución del modelo SiamMask](./assets/SiamMask.gif)
+![Ejecución del modelo SiamMask](./assets/SiamMaskpro.gif)

@@ -11,11 +11,11 @@ Hay muchas aplicaciones de los modelos de deep learning en las tecnologías geo 
 
 **Modelos de deep learning:**
 
-|_ [Detección de objetos](./detectObject.md)
+|- [Detección de objetos](./detectObject.md)
 
-|_ [Clasificación de píxeles](./classifyPixel.md)
+|- [Clasificación de píxeles](./classifyPixel.md)
 
-|_ [Seguimiento de objetos](./trackObject.md)
+|- [Seguimiento de objetos](./trackObject.md)
 
 ## [Modelos pre-entrenados](pretrainedModels.md)
 Lo ideal es tener tiempo y recursos para entrenar tus propios modelos porque será cuando se llegue a la mejor conclusión pero no es real, muchas veces tendremos que utilizar modelos pre-entrenados por otras personas. Un sitio del que podemos obtener modelos pre-entrenados es el Living Atlas donde hay más de [70 dlpks](https://livingatlas.arcgis.com/en/browse/?q=dlpk#q=dlpk&d=2) compartidos de distintas temáticas.

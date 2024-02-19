@@ -5,14 +5,14 @@
 ## Arquitectura SiamMask
 SiamMask es una red siamesa que añade una nueva rama para producir una máscara binaria a nivel de píxel. 
 
-![Variantes de SiamMask](https://developers.arcgis.com/python/guide/base64-images/track_objects_using_siammask-g09560345-3b30-dff7-6b62-469243251ca0.png)
+![Variantes de SiamMask](../assets/siamMaskArchitecture.png)
 > Hay dos variantes, con dos y con tres ramas.
 
 * **Backbone** en SiamMask es el ResNet-50. La arquitectura representada a continuación utiliza las 4 primeras etapas de ResNet, la capa de ajuste y la correlación cruzada en profundidad, lo que da como resultado un mapa de características de tamaño 17×17.
 * **Network heads**: bloque conv5 de la arquitectura contiene una capa de normalización y una capa de activación no lineal ReLU, mientras que conv6 sólo consta de una capa convolucional 1×1.
 * **Refinement**: módulo que fusiona características de baja y alta resolución utilizndo múltiples pasos de refinamiento que hacen uso de capas de muestreo ascendente y conexiones de salto.
 
-![Módulo de refinamiento](https://developers.arcgis.com/python/guide/base64-images/track_objects_using_siammask-ga1cd4fd5-07eb-0a93-142e-64b4cedf7c8b.png)
+![Módulo de refinamiento](../assets/siamMaskRefinement.png)
 
 ## Implementación en arcgis.learn
 
@@ -95,4 +95,4 @@ cv2.destroyAllWindows()
 ```
 
 Ejemplo:
-![Ejecución del modelo SiamMask](./assets/SiamMaskpro.gif)
+![Ejecución del modelo SiamMask](../assets/SiamMaskpro.gif)

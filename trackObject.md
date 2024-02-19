@@ -37,12 +37,17 @@ Se utiliza un filtro de Kalman en cada cuadro delimitador por lo que el movimien
 El algoritmo húngaro puede asociar un obstáculo de un fotograma a otro basándose en una puntuación como intersección sobre unión (IoU). 
 Se recorre la lista de trackers y detecciones y se le asigna un tracker a cada detección en base a la puntuación de IoU. El proceso general consiste en detectar obstáculos mediante un algoritmo de detección de objetos, cotejar esas bounding box con los anteriores y predecir las posiciones futuras de esos cuadros o las posiciones reales mediante filtros de Kalman. 
 
-* [Ejemplo de uso de ```predict_video``](./ObjectTracking/predict_video.md)
+## [Seguimiento de objetos con algoritmo SiamMask](./ObjectTracking/siamMask.md)
+
+Cuando queremos seguir un solo elemento dibujado a mano, podemos utilizar esta arquitectura de modelo. 
 
 ## Seguimiento multi-objeto con ObjectTracker
-Los modelos de detección de objetos basado en deep learning de *arcgis.learn* pueden utilizarse para detectar objetos de interés. 
 
-La clase [**ObjectTracker**](https://developers.arcgis.com/python/api-reference/arcgis.learn.toc.html#objecttracker) de *arcgis.learn* empareja modelo de detección de objetos y modelos de seguimiento de objetos para permitir el seguimiento multiobjeto basado en deep learning. 
+Sin embargo, cuando queramos detectar más de un elemento y seguir su trayectoria deberemos hacer un **seguimiento multi-objeto**. Los modelos de detección de objetos basado en deep learning de *arcgis.learn* pueden utilizarse para detectar objetos de interés. 
+
+La clase [**ObjectTracker**](https://developers.arcgis.com/python/api-reference/arcgis.learn.toc.html#objecttracker) de *arcgis.learn* empareja **modelo de detección de objetos** y **modelos de seguimiento de objetos** para permitir el seguimiento multi-objeto basado en deep learning. 
+
+Podemo utilizar modelos pre-entrenados o entrenar modelos propios. 
 
 Los pasos a seguir serían:
 1. **Entrenar el modelo detector de objetos**.
@@ -108,4 +113,3 @@ tracks = tracker.update(frame)
 
 https://developers.arcgis.com/python/guide/multi-object-tracking-using-object-tracker/#sample-code 
 
-> [SiamMask: algoritmo de seguimiento de objetos](./ObjectTracking/predict_video.md)

@@ -50,14 +50,20 @@ La clase [**ObjectTracker**](https://developers.arcgis.com/python/api-reference/
 Podemo utilizar modelos pre-entrenados o entrenar modelos propios. 
 
 Los pasos a seguir serían:
-1. **Entrenar el modelo detector de objetos**.
-Seleccionamos uno de los modelos de detección de objetos de *arcgis.learn* y lo reentrenamos.
-> [Guía para la detección de objetos con *arcgis.learn*](https://developers.arcgis.com/python/guide/object-detection-and-tracking-on-videos/)
+1. **Entrenar o cargar el modelo detector de objetos**.
 
-2. **Entrenar el trackeo de objetos**
+    Seleccionamos uno de los modelos de detección de objetos de *arcgis.learn* y lo reentrenamos.
+    > [Guía para la detección de objetos con *arcgis.learn*](https://developers.arcgis.com/python/guide/object-detection-and-tracking-on-videos/)
+
+2. **Entrenar o cargar el trackeo de objetos**. 
+
+    Con la arquitectura o modelo deseado como puede ser [SiamMask](./ObjectTracking/siamMask.md)
 
 3. **Inicializar y rastrear objetos con ObjectTracker**
-La clase ObjectTracker se inicializa pasandóle como parámetros el modelo de detección de objetos y el de trackeo de objetos. 
+
+    La clase ObjectTracker se inicializa pasandóle como parámetros el modelo de detección de objetos y el de trackeo de objetos. 
+
+### Ejemplo de uso
 
 ```python
 # Cargar los modelos de detección de objetos y de seguimiento
@@ -111,5 +117,144 @@ El método ```update``` permite actualizar la ubicación de los objetos y reinic
 tracks = tracker.update(frame)
 ```
 
-https://developers.arcgis.com/python/guide/multi-object-tracking-using-object-tracker/#sample-code 
+## Ejemplo de uso
+Código ejecutado en **ArcGIS Pro**:
+```python
+import os
+from arcgis.learn import ObjectTracker, YOLOv3, SiamMask
+import cv2
+import numpy as np
 
+detection_model = YOLOv3()
+tracking_model = SiamMask()
+tracker = ObjectTracker(tracking_model, detector=detection_model)
+
+# Ruta del video original
+video_path = r"C:\XXX\video_2.mp4"
+
+# Obtener el directorio y el nombre del video original
+video_directory, video_filename = os.path.split(video_path)
+
+# Crear una nueva ruta para el archivo de video de salida
+output_video_path = os.path.join(video_directory, "siam_" + video_filename)
+
+cap = cv2.VideoCapture(video_path)
+if not cap.isOpened():
+    print("Error: No se pudo abrir el archivo de video.")
+    exit()
+
+cap_write = cv2.VideoWriter(
+    filename=output_video_path, 
+    apiPreference=cv2.CAP_FFMPEG,
+    fourcc=cv2.VideoWriter_fourcc(*'MJPG'), 
+    fps=30, 
+    frameSize=(1920, 1080)
+)
+
+success, frame = cap.read()
+
+if success:
+    frame_copy = np.copy(frame)  # Hacer una copia de la imagen para evitar el warning de PyTorch
+    tracks = tracker.init(frame_copy)
+    for track in tracks:
+        p1 = (int(track.bbox[0]), int(track.bbox[1]))
+        p2 = (int(track.bbox[0] + track.bbox[2]), int(track.bbox[1] + track.bbox[3]))
+        cv2.rectangle(frame_copy, p1, p2, (0, 255, 0), 2, 1)
+    cap_write.write(frame_copy)
+
+while cap.isOpened():
+    success, frame = cap.read()
+    if not success:
+        break
+
+    frame_copy = np.copy(frame)  # Hacer una copia de la imagen para evitar el warning de PyTorch
+    tracks = tracker.update(frame_copy)
+
+    for track in tracks:
+        p1 = (int(track.bbox[0]), int(track.bbox[1]))
+        p2 = (int(track.bbox[0] + track.bbox[2]), int(track.bbox[1] + track.bbox[3]))
+        cv2.rectangle(frame_copy, p1, p2, (0, 0, 255), 2, 1)
+    cap_write.write(frame_copy)
+
+cap.release()
+cap_write.release()
+cv2.destroyAllWindows()
+
+print("El archivo de video se ha guardado en:", output_video_path)
+
+```
+**Resultado:**
+![Resultado](./assets/siam_video_2.gif)
+
+Si modificamos el código podemos mejorar el resultado añadiendo información extra como la etiqueta que le ha asignado el modelo a cada objeto y el valor de confianza:
+
+```python
+
+import os
+
+from arcgis.learn import ObjectTracker, YOLOv3, SiamMask
+import cv2
+import numpy as np
+
+detection_model = YOLOv3()
+tracking_model = SiamMask()
+tracker = ObjectTracker(tracking_model, detector=detection_model)
+
+# Ruta del video original
+video_path = r"C:\Datos\test\video_2.mp4"
+
+# Obtener el directorio y el nombre del video original
+video_directory, video_filename = os.path.split(video_path)
+
+# Crear una nueva ruta para el archivo de video de salida
+output_video_path = os.path.join(video_directory, "siam_tracker_score_label_" + video_filename)
+
+cap = cv2.VideoCapture(video_path)
+if not cap.isOpened():
+    print("Error: No se pudo abrir el archivo de video.")
+    exit()
+
+# Usar el códec MJPEG
+cap_write = cv2.VideoWriter(filename=output_video_path, apiPreference=cv2.CAP_FFMPEG, \
+                            fourcc=cv2.VideoWriter_fourcc(*'MJPG'), fps=30, frameSize=(1920, 1080))
+
+success, frame = cap.read()
+
+if success:
+    frame_copy = np.copy(frame)  # Hacer una copia de la imagen para evitar el warning de PyTorch
+    tracks = tracker.init(frame_copy)
+    for i, track in enumerate(tracks):
+        p1 = (int(track.bbox[0]), int(track.bbox[1]))
+        p2 = (int(track.bbox[0] + track.bbox[2]), int(track.bbox[1] + track.bbox[3]))
+        threshold = round(track.score, 2)  # Redondear el umbral a dos decimales
+        label = track.label  # Obtener la etiqueta del objeto
+        cv2.rectangle(frame_copy, p1, p2, (0, 255, 0), 2, 1)
+        cv2.putText(frame_copy, f"{label} ({threshold})", (p1[0], p1[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+    cap_write.write(frame_copy)
+
+while cap.isOpened():
+    success, frame = cap.read()
+    if not success:
+        break
+
+    frame_copy = np.copy(frame)  # Hacer una copia de la imagen para evitar el warning de PyTorch
+    tracks = tracker.update(frame_copy)
+
+    for i, track in enumerate(tracks):
+        p1 = (int(track.bbox[0]), int(track.bbox[1]))
+        p2 = (int(track.bbox[0] + track.bbox[2]), int(track.bbox[1] + track.bbox[3]))
+        threshold = round(track.score, 2)  # Redondear el umbral a dos decimales
+        label = track.label  # Obtener la etiqueta del objeto
+        cv2.rectangle(frame_copy, p1, p2, (0, 0, 255), 2, 1)
+        cv2.putText(frame_copy, f"{label} ({threshold})", (p1[0], p1[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+    cap_write.write(frame_copy)
+
+cap.release()
+cap_write.release()
+cv2.destroyAllWindows()
+
+print("El archivo de video se ha guardado en:", output_video_path)
+```
+
+**Resultado:**
+![Resultado con etiquetas y score](./assets/siam_tracker_score_label_video_2.gif)

@@ -94,5 +94,5 @@ cap.release()
 cv2.destroyAllWindows()
 ```
 
-Ejemplo:
+Ejemplo de ejecución en **ArcGIS Pro**:
 ![Ejecución del modelo SiamMask](../assets/SiamMaskpro.gif)

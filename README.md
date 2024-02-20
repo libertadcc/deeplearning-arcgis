@@ -7,7 +7,7 @@ Antes de analizar y probar los modelos de deep learning, creo que es interesante
 ## Modelos de deep learning en ArcGIS
 Hay muchas aplicaciones de los modelos de deep learning en las tecnologías geo espaciales que permiten potenciar la capacidad analítica y predictiva. Por ejemplo, se pueden usar modelos para detectar y clasificar objetos en imágenes como en la detección de coches, reconocimento de patrones... Los modelos que vamos a ver en profundidad seguirán la siguiente estructura:
 
-![Estructura de modelos de deep learning](./assets/mindmap1.png)
+![Estructura de modelos de deep learning](./assets/mindmap.png)
 
 **Modelos de deep learning:**
 
@@ -16,6 +16,8 @@ Hay muchas aplicaciones de los modelos de deep learning en las tecnologías geo 
 |- [Clasificación de píxeles](./classifyPixel.md)
 
 |- [Seguimiento de objetos](./trackObject.md)
+
+|- [Clasificación de nubes de puntos](./PointCloud/classify.md)
 
 ## [Modelos pre-entrenados](pretrainedModels.md)
 Lo ideal es tener tiempo y recursos para entrenar tus propios modelos porque será cuando se llegue a la mejor conclusión pero no es real, muchas veces tendremos que utilizar modelos pre-entrenados por otras personas. Un sitio del que podemos obtener modelos pre-entrenados es el Living Atlas donde hay más de [70 dlpks](https://livingatlas.arcgis.com/en/browse/?q=dlpk#q=dlpk&d=2) compartidos de distintas temáticas.
@@ -27,3 +29,24 @@ Lo ideal es tener tiempo y recursos para entrenar tus propios modelos porque ser
 - [Finetuning pre-trained model](https://developers.arcgis.com/python/samples/finetuning-pre-trained-building-footprint-model/#model-finetuning)
 - [Deep Learning with ArcGIS Pro Tips & Tricks](https://www.esri.com/arcgis-blog/products/arcgis-pro/mapping/deep-learning-with-arcgis-pro-tips-tricks-part-2/)
 - [Parameters and Hyperparameters in ML and DL](https://towardsdatascience.com/parameters-and-hyperparameters-aa609601a9ac#:~:text=Simply%20put%2C%20parameters%20in%20machine,choice%20of%20hyperparameters%20you%20provide.)
+
+
+
+
+# Enlaces directos
+Aunque todos los archivos están enlazados en puntos donde se explican, aquí hay un listado que nos da acceso directo a todos los temas, modelos y ejemplos:
+- [Detección de objetos](./detectObject.md)
+    - [SSD](./SSD/Intro.md)
+    - [YOLOv3 con imágenes](./YOLOv3-imagenes/Imagenes.md)
+    - [YOLOv3 con vídeos](./YOLOv3-imagenes/Videos.md)
+    - [RetinaNet](./RetinaNet/Intro.md)
+    - [Faster R-CNN](./FasterRCNN/Intro.md)
+    - [Mask R-CNN](./MaskRCNN/Intro.md)
+- [Clasificación de píxeles](./classifyPixel.md)
+    - [U-Net](./U-Net/Intro.md)
+        - [Clasificación del suelo con U-Net](./U-Net/landCoverClassification_sample.ipynb)
+    - [PSPNet](./PSPNet/Intro.md)
+    - [Detección de cambios](./ChangeDetection/Intro.md)
+- [Seguimiento de objetos](./trackObject.md)
+    - [Método predict_video](./ObjectTracking/predict_video.md)
+    - [SiamMask](./ObjectTracking/siamMask.md)
